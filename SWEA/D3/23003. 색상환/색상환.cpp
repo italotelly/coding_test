@@ -1,23 +1,23 @@
 #include <iostream>
 #include <string>
-
+ 
 using namespace std;
-
+ 
 string ary[6] = {"red", "orange", "yellow", "green", "blue", "purple"};
-
+ 
 // »ö»óÈ¯
 int main()
 {
     int T;
-
+ 
     cin >> T;
-
+ 
     string s, t;
-
+ 
     for (int i = 0; i < T; i++)
     {
         cin >> s >> t;
-
+ 
         if (s == t)
         {
             cout << "E\n";
