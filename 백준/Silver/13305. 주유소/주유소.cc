@@ -9,15 +9,15 @@ int main() {
 	cin.tie(NULL);
 
 	int N;
-	vector<int> distance;
-	vector<int> price;
+	vector<long long> distance;
+	vector<long long> price;
 
 	cin >> N;
 	distance.resize(N - 1, 0);
 	price.resize(N, 0);
 
-	int total = 0;
-	int low_price = 10000;
+	long long total = 0;
+	long long low_price = 10000;
 
 	for (int i = 0; i < distance.size(); i++) {
 		cin >> distance[i];
