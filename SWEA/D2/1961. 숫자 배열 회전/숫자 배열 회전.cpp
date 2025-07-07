@@ -3,54 +3,58 @@
 
 using namespace std;
 
-// 숫자 배열 회전
-int main()
-{
-    cin.tie(NULL);
-    ios::sync_with_stdio(false);
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    int T;
-    cin >> T;
+	int T;
+	cin >> T;
 
-    int N;
+	vector<vector<int>> v;
 
-    for (int i = 1; i <= T; i++)
-    {
-        cin >> N;
-        vector<vector<int>> board(N, vector<int>(N, 0));
+	for (int i = 1; i <= T; i++) {
 
-        for (int j = 0; j < N; j++)
-        {
-            for (int k = 0; k < N; k++)
-            {
-                cin >> board[j][k];
-            }
-        }
+		int N;
+		cin >> N;
 
-        cout << "#" << i << "\n";
-        for (int j = 0; j < N; j++)
-        {
-            // 90도
-            for (int k = N - 1; k >= 0; k--)
-            {
-                cout << board[k][j];
-            }
-            cout << " ";
-            // 180도
-            for (int k = N - 1; k >= 0; k--)
-            {
-                cout << board[N - j - 1][k];
-            }
-            cout << " ";
-            // 270도
-            for (int k = 0; k < N; k++)
-            {
-                cout << board[k][N - j - 1];
-            }
-            cout << " ";
+		v.assign(N, vector<int>(N, 0));
 
-            cout << "\n";
-        }
-    }
-    return 0;
+		for (int j = 0; j < N; j++) {
+			for (int k = 0; k < N; k++) {
+				cin >> v[j][k];
+			}
+		}
+
+		cout << "#" << i << "\n";
+
+		// 90 180 270
+		for (int t = 0; t < N; t++) {
+
+			// 90
+			int k = t;
+			for (int j = N - 1; j >= 0; j--) {
+				cout << v[j][k];
+			}
+			cout << " ";
+
+			// 180
+			int j = N - t - 1;
+			for (int k = N - 1; k >= 0; k--) {
+				cout << v[j][k];
+			}
+			cout << " ";
+
+			// 270
+			k = N - t - 1;
+			for (int j = 0; j < N; j++) {
+				cout << v[j][k];
+			}
+			cout << "\n";
+		}
+		
+	}
+
+
+
+	return 0;
 }
