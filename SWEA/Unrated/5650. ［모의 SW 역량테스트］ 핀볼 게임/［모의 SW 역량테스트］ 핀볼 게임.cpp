@@ -1,92 +1,77 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
 
-int N;
+int N, ans;
 vector<vector<int>> board;
-vector<pair<int, int>> wormhole[11]; // 웜홀은 6~10번까지 있음
+vector<pair<int, int>> wormhole[11];
 
-// 상, 하, 좌, 우
-int dx[4] = { -1, 1, 0, 0 };
-int dy[4] = { 0, 0, -1, 1 };
+int dy[4] = { -1, 1, 0, 0 };
+int dx[4] = { 0, 0, -1, 1 };
 
-// 블록 반사 규칙
-int block_dir[5][4] = {
-	{1, 3, 0, 2}, // 블록 1
-	{3, 0, 1, 2}, // 블록 2
-	{2, 0, 3, 1}, // 블록 3
-	{1, 2, 3, 0}, // 블록 4
-	{1, 0, 3, 2}  // 블록 5 (벽 역할)
+int reflect[6][4] = {
+	{0,0,0,0},
+	{1,3,0,2},
+	{3,0,1,2},
+	{2,0,3,1},
+	{1,2,3,0},
+	{1,0,3,2}
 };
 
-bool inRange(int x, int y) {
-	return x >= 0 && x < N && y >= 0 && y < N;
+bool inRange(int y, int x) {
+	return (y >= 0 && x >= 0 && y < N && x < N);
 }
 
-int simulate(int sx, int sy, int dir) {
-	int score = 0;
-	int x = sx, y = sy;
+pair<int, int> warp(int y, int x) {
+	int num = board[y][x];
+	auto &v = wormhole[num];
+	return (v[0] == make_pair(y, x)) ? v[1] : v[0];
+}
 
+int simulate(int sy, int sx, int dir) {
+	int y = sy, x = sx, d = dir, score = 0;
 	while (true) {
-		x += dx[dir];
-		y += dy[dir];
+		y += dy[d];
+		x += dx[d];
 
-		if (!inRange(x, y)) {
-			dir = block_dir[4][dir]; // 벽에 부딪힘 (5번 블록처럼 처리)
+		if (!inRange(y, x)) { score++; d ^= 1; continue; }
+		if ((y == sy && x == sx) || board[y][x] == -1) break;
+
+		int val = board[y][x];
+		if (1 <= val && val <= 5) {
 			score++;
-			continue;
+			d = reflect[val][d];
 		}
-
-		int val = board[x][y];
-
-		if ((x == sx && y == sy) || val == -1) break; // 출발지 재도달 또는 블랙홀
-
-		if (val >= 1 && val <= 5) {
-			dir = block_dir[val - 1][dir];
-			score++;
-		}
-		else if (val >= 6 && val <= 10) {
-			pair<int, int> a = wormhole[val][0];
-			pair<int, int> b = wormhole[val][1];
-			if (x == a.first && y == a.second) {
-				x = b.first;
-				y = b.second;
-			}
-			else {
-				x = a.first;
-				y = a.second;
-			}
+		else if (val >= 6) {
+			auto nxt = warp(y, x);
+			y = nxt.first;
+			x = nxt.second;
 		}
 	}
-
 	return score;
 }
 
 int main() {
 	ios::sync_with_stdio(false);
-	cin.tie(0);
+	cin.tie(nullptr);
 
 	int T;
 	cin >> T;
-
-	for (int test = 1; test <= T; test++) {
+	for (int tc = 1; tc <= T; tc++) {
 		cin >> N;
-		board.assign(N, vector<int>(N));
+		board.assign(N, vector<int>(N, 0));
 		for (int i = 6; i <= 10; i++) wormhole[i].clear();
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				cin >> board[i][j];
-				if (board[i][j] >= 6 && board[i][j] <= 10) {
-					wormhole[board[i][j]].push_back({ i, j });
-				}
+				if (board[i][j] >= 6)
+					wormhole[board[i][j]].push_back({ i,j });
 			}
 		}
 
-		int ans = 0;
-
+		ans = 0;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (board[i][j] == 0) {
@@ -96,9 +81,7 @@ int main() {
 				}
 			}
 		}
-
-		cout << "#" << test << " " << ans << "\n";
+		cout << "#" << tc << " " << ans << "\n";
 	}
-
 	return 0;
 }
