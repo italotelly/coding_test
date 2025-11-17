@@ -40,25 +40,11 @@ int main() {
 			return 0;
 		}
 		else if (sum > 0) {
-			if (abs(sum) > abs(v[st] + v[en - 1])) {
-				en--;
-			}
-			else {
-				en--;
-				st++;
-			}
+			en--;
 		}
-		else if (sum < 0) {
-			if (abs(sum) > abs(v[st + 1] + v[en])) {
-				st++;
-			}
-			else {
-				st++;
-				en--;
-			}
-		}
+		else
+			st++;
 	}
-
 	cout << v[min_st] << " " << v[min_en] << "\n";
 
 	return 0;
