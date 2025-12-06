@@ -7,7 +7,6 @@ using namespace std;
 
 int r, c, k;
 int rst;
-int t = 101;
 
 int row_num = 3;
 int col_num = 3;
@@ -37,7 +36,7 @@ int main() {
 		}
 	}
 
-	while (t--) {
+	while (rst <= 100) {
 		// 종료 조건
 		if (A[r][c] == k) break;
 
@@ -100,7 +99,7 @@ int main() {
 		rst++;
 	}
 
-	if (t < 0) {
+	if (rst > 100) {
 		cout << "-1\n";
 	}
 	else {
