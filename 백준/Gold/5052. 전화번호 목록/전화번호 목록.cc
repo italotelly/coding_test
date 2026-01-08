@@ -41,7 +41,7 @@ int main() {
 			for (int j = 0; j < v[i].size() - 1; j++)
 			{
 				s += v[i][j];
-				if (m[s]) flag = 1;
+				if (m.find(s) != m.end()) flag = 1;
 			}
 		}
 
