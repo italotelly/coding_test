@@ -96,10 +96,13 @@ int main() {
 				bit += (1 << feataddr[v[i]]);
 			}
 			if (flag) continue;
-			int result = 0;
-			for (int i = 0; i < 512; i++)
-			{
-				if ((i & bit) == bit) result += rst[i];
+			int allBits = (1 << feat_cnt) - 1;
+			int remain = allBits ^ bit;
+
+			long long result = 0;
+			for (int sub = remain;; sub = (sub - 1) & remain) {
+				result += rst[bit | sub];
+				if (sub == 0) break;
 			}
 			cout << result << "\n";
 		}
