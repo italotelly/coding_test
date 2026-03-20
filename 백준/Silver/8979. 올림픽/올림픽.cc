@@ -38,12 +38,13 @@ int main() {
 
 	sort(v.begin(), v.end(), compare);
 
-	if (N == 1) {
+	int st = 0;
+	if (v[st].n == K) {
 		cout << "1\n";
 		return 0;
 	}
 
-	int st = 1;
+	st = 1;
 	int rank = 1;
 	int same_rank = 1;
 
